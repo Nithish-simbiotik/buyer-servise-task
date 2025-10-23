@@ -1,0 +1,11 @@
+export enum MettingStatus {
+  SCHEDULED = 'SCHEDULED',
+  ONGOING = 'ONGOING',
+  ENDED = 'ENDED',
+}
+
+export enum BUYER_RESPONSE_STATUS {
+  PENDING = 'PENDING',
+
+  CONFIRMED = 'CONFIRMED',
+}
