@@ -24,29 +24,28 @@ stages:
         displayName: 'Build and push the jobs'
 
         steps:
+         - task: Docker@2
+           displayName: 'LOGIN the container registry'
+           inputs:
+            containerRegistry: 'nitish-test-acr-spo'
+            command: 'login'
 
-          - task: Docker@2
-            displayName: 'Login the container registry'
-            inputs:
-             command: 'login'
+         - task: Docker@2
+           displayName: "Build the Docker image"
+           inputs:
+             command: build
+             repository: '$(imageName)'
+             Dockerfile: '$(Build.SourcesDirectory)/DockerFile'
+             tags: |
+              $(tag)
+              latest
+
+         - task: Docker@2
+           displayName: "Push the Docker image"
+           inputs:
+             command: push
+             repository: '$(imageName)'
              containerRegistry: 'nitish-test-acr-spo'
-
-          - task: Docker@2
-            displayName: 'Build the Docker image'
-            inputs:
-              repository: '$(imageName)'
-              command: 'build'
-              Dockerfile: '$(Build.sourcesDirectory)/Dockerfile'
-              tags: |
-                $(tag)
-                latest
-          
-          - task: Docker@2
-            displayName: 'Push the Docker image'
-            inputs:
-              containerRegistry: 'nitish-test-acr-spo'
-              repository: '$(imageName)'
-              command: 'push'
-              tags: |
-                $(tag)
-                latest
+             tags: |
+              $(tag)
+              latest
